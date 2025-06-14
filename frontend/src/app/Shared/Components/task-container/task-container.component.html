@@ -1,0 +1,17 @@
+<div
+    (dragover)="onDragOver($event)"
+    (drop)="onDropTask($event)"
+    class="min-w-full w-full h-full flex justify-center items-center content-start gap-5 flex-wrap overflow-y-scroll scroll-hide">
+    @if (tasksList() != undefined && tasksList().length > 0) {
+        @for (task of tasksList(); track $index) {
+            <app-task
+                class="w-full"
+                [task]="task"
+                draggable="true"
+                (click)="onTaskClick(task)"
+                (dragstart)="onDragStart($event, task)"></app-task>
+        }
+    } @else {
+        <div>No hay tareas</div>
+    }
+</div>

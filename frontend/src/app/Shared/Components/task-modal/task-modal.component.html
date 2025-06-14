@@ -1,0 +1,58 @@
+@if (taskModalService.showModal()) {
+    <div
+        class="w-screen max-w-full min-h-full absolute top-0 left-0 bg-black/50 flex justify-center items-center z-10">
+        <div
+            class="w-full sm:w-2/3 md:w-2/5 xl:w-1/4 bg-white rounded-xl relative p-3">
+            <div class="relative flex items-center justify-center h-10">
+                <div
+                    (click)="taskModalService.closeModal()"
+                    class="w-7 h-7 bg-neutral-700 text-white font-extrabold grid place-items-center rounded-lg absolute right-0 top-0 hover:bg-neutral-400">
+                    X
+                </div>
+            </div>
+            <form
+                [formGroup]="formCreateTask"
+                class="w-full mt-5 flex flex-col justify-center items-center gap-1">
+                <mat-form-field
+                    class="w-full sm:w-3/4 md:w-3/5"
+                    appearance="outline">
+                    <mat-label>Titulo</mat-label>
+                    <input
+                        type="text"
+                        matInput
+                        formControlName="title"
+                        placeholder="Titulo" />
+                    @if (
+                        formCreateTask.get('title')?.hasError('required') &&
+                        (formCreateTask.get('title')?.dirty ||
+                            formCreateTask.get('title')?.touched)
+                    ) {
+                        <mat-hint class="text-red-500"
+                            >Título requerido</mat-hint
+                        >
+                    }
+                </mat-form-field>
+
+                <mat-form-field
+                    class="w-full sm:w-3/4 md:w-3/5"
+                    appearance="outline">
+                    <mat-label>Descripción</mat-label>
+                    <textarea
+                        style="resize: none; height: 10rem"
+                        matInput
+                        formControlName="description"
+                        placeholder="Descripción"></textarea>
+                </mat-form-field>
+            </form>
+            @if (showButtonCreate()) {
+                <div class="w-full grid place-items-center">
+                    <div
+                        (click)="onSubmit()"
+                        class="w-40 h-10 bg-neutral-700 rounded-lg text-white font-bold grid place-items-center hover:bg-neutral-400">
+                        Crear
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

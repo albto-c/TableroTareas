@@ -1,0 +1,176 @@
+<div
+    class="w-screen max-w-full h-screen flex items-center md:justify-center md:items-center select-none">
+    <div
+        class="w-full h-fit md:w-3/6 lg:w-5/12 xl:w-2/6 md:bg-white md:shadow-md md:shadow-black/15 rounded-xl">
+        <div class="grid grid-cols-2 gap-5 h-10">
+            <div
+                (click)="isLoginTouched.set(true); isRegisterTouched.set(false)"
+                class="h-full font-extrabold text-neutral-700 text-base flex items-center justify-center hover:cursor-pointer p-3"
+                [ngClass]="{ 'border-b-2': isLoginTouched() }">
+                INICIAR SESIÓN
+            </div>
+            <div
+                (click)="isRegisterTouched.set(true); isLoginTouched.set(false)"
+                class="h-full font-extrabold text-neutral-700 text-base flex items-center justify-center hover:cursor-pointer p-3"
+                [ngClass]="{ 'border-b-2': isRegisterTouched() }">
+                REGISTRARSE
+            </div>
+        </div>
+        <div class="p-10">
+            @if (isLoginTouched()) {
+                <div class="flex flex-col justify-center items-center">
+                    <form
+                        [formGroup]="formLogin"
+                        class="mt-5 w-3/4 flex flex-col items-center justify-center">
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Usuario</mat-label>
+                            <input
+                                type="email"
+                                matInput
+                                formControlName="username"
+                                placeholder="Usuario" />
+                            @if (
+                                (formLogin.get('username')?.hasError('email') ||
+                                    formLogin
+                                        .get('username')
+                                        ?.hasError('required')) &&
+                                (formLogin.get('username')?.dirty ||
+                                    formLogin.get('username')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Correo con formato incorrecto</mat-hint
+                                >
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field
+                            class="w-full mt-5"
+                            appearance="outline">
+                            <mat-label>Constraseña</mat-label>
+                            <input
+                                type="password"
+                                matInput
+                                formControlName="password"
+                                placeholder="Contraseña" />
+                            @if (
+                                formLogin
+                                    .get('password')
+                                    ?.hasError('required') &&
+                                (formLogin.get('password')?.dirty ||
+                                    formLogin.get('password')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Contraseña obligatoria</mat-hint
+                                >
+                            }
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div
+                    class="mt-3 flex justify-center items-center text-neutral-700 hover:text-neutral-400">
+                    <a href="#">¿Has olvidado la contraseña?</a>
+                </div>
+                <div class="w-full flex items-center justify-center mt-5">
+                    <div
+                        (click)="onLoginSubmit()"
+                        class="w-40 h-8 bg-neutral-700 text-white font-extrabold rounded select-none hover:bg-neutral-400 cursor-pointer">
+                        <span
+                            href="/login"
+                            class="w-full h-full flex justify-center items-center"
+                            >Iniciar Sesion</span
+                        >
+                    </div>
+                </div>
+            } @else if (isRegisterTouched()) {
+                <div class="flex flex-col justify-center items-center">
+                    <form
+                        [formGroup]="formRegister"
+                        class="mt-5 w-3/4 flex flex-col items-center justify-center gap-2">
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Usuario</mat-label>
+                            <input
+                                type="email"
+                                matInput
+                                formControlName="username"
+                                placeholder="Usuario" />
+                            @if (
+                                (formRegister
+                                    .get('username')
+                                    ?.hasError('email') ||
+                                    formRegister
+                                        .get('username')
+                                        ?.hasError('required')) &&
+                                (formRegister.get('username')?.dirty ||
+                                    formRegister.get('username')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Correo con formato incorrecto</mat-hint
+                                >
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Constraseña</mat-label>
+                            <input
+                                type="password"
+                                matInput
+                                formControlName="password"
+                                placeholder="Contraseña" />
+                            @if (
+                                formRegister
+                                    .get('password')
+                                    ?.hasError('required') &&
+                                (formRegister.get('password')?.dirty ||
+                                    formRegister.get('password')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Contraseña obligatoria</mat-hint
+                                >
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Repite la constraseña</mat-label>
+                            <input
+                                type="password"
+                                matInput
+                                formControlName="passwordCheck"
+                                placeholder="Repite la contraseña" />
+                            @if (
+                                formRegister
+                                    .get('passwordCheck')
+                                    ?.hasError('required') &&
+                                (formRegister.get('passwordCheck')?.dirty ||
+                                    formRegister.get('passwordCheck')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Contraseña obligatoria</mat-hint
+                                >
+                            } @else if (
+                                formRegister
+                                    .get('passwordCheck')
+                                    ?.hasError('confirmPassword') &&
+                                (formRegister.get('passwordCheck')?.dirty ||
+                                    formRegister.get('passwordCheck')?.touched)
+                            ) {
+                                <mat-hint class="text-red-500"
+                                    >Debe de ser igual a la contraseña</mat-hint
+                                >
+                            }
+                        </mat-form-field>
+                        <div class="w-full flex items-center justify-center">
+                            <div
+                                (click)="onRegisterSubmit()"
+                                class="w-40 h-8 bg-neutral-700 text-white font-extrabold rounded select-none hover:bg-neutral-400 cursor-pointer">
+                                <span
+                                    href="/login"
+                                    class="w-full h-full flex justify-center items-center"
+                                    >Registrarse</span
+                                >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>

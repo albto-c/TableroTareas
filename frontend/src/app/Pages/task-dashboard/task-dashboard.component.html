@@ -1,0 +1,143 @@
+@defer (when loadComponent()) {
+    <div class="w-full h-full flex justify-center items-center select-none">
+        <app-task-modal></app-task-modal>
+        <div class="w-full h-full">
+            <div
+                [routerLink]="['/']"
+                class="bg-neutral-700 w-8 h-8 flex justify-center items-center rounded-lg hover:bg-neutral-400">
+                <!-- left arrow -->
+                <i class="bi bi-caret-left-fill text-2xl text-white"></i>
+            </div>
+            <div
+                class="w-full flex justify-center items-center text-2xl text-neutral-700 font-bold">
+                {{ this.day < 10 ? '0' + this.day : this.day }}/{{
+                    this.month < 10 ? '0' + this.month : this.month
+                }}/{{ this.year.toString().substring(2) }}
+            </div>
+            <div
+                class="flex justify-center items-center mt-10 mb-10 w-full h-70vh">
+                <!--Div containers tasks mobile mode-->
+                <div
+                    class="lg:hidden w-full md:w-11/12 h-70vh flex flex-col justify-start items-center gap-5 shadow-xl rounded-xl bg-white">
+                    <div
+                        class="w-full h-14 grid grid-cols-2 font-bold text-lg text-neutral-700">
+                        <div
+                            (click)="
+                                isTodoSelected.set(true);
+                                isFinishedSelected.set(false)
+                            "
+                            class="w-full h-14 text-sm md:text-base flex justify-center items-center"
+                            [ngClass]="{ 'border-b-2': isTodoSelected() }">
+                            <!--TODO tasks-->
+                            <i
+                                class="bi bi-cup-hot text-orange-500 text-4xl"></i>
+                        </div>
+                        <div
+                            (click)="
+                                isTodoSelected.set(false);
+                                isFinishedSelected.set(true)
+                            "
+                            class="w-full h-14 text-sm md:text-base flex justify-center items-center"
+                            [ngClass]="{ 'border-b-2': isFinishedSelected() }">
+                            <!--Finished tasks-->
+                            <i
+                                class="bi bi-check-all text-green-500 text-5xl"></i>
+                        </div>
+                    </div>
+
+                    @if (isTodoSelected()) {
+                        <div class="w-11/12 flex justify-end items-center">
+                            <div
+                                (click)="taskModalService.openModal()"
+                                class="w-9 h-9 flex justify-center items-center bg-neutral-700 rounded-lg hover:bg-neutral-400">
+                                <!-- add -->
+                                <div>
+                                    <i
+                                        class="bi bi-file-earmark-plus text-white text-3xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <app-task-container
+                            [taskStatus]="1"
+                            [tasksList]="this.tasksToDo"
+                            class="w-11/12 md:w-9/12 min-h-5 h-80"></app-task-container>
+                    } @else if (isFinishedSelected()) {
+                        <div class="w-11/12 flex justify-end items-center">
+                            <div
+                                (click)="taskModalService.openModal()"
+                                class="w-9 h-9 flex justify-center items-center bg-neutral-700 rounded-lg hover:bg-neutral-400">
+                                <!-- add -->
+                                <div>
+                                    <i
+                                        class="bi bi-file-earmark-plus text-white text-3xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <app-task-container
+                            [taskStatus]="2"
+                            [tasksList]="this.tasksFinished"
+                            class="w-11/12 md:w-9/12 min-h-5 h-80"></app-task-container>
+                    }
+                </div>
+
+                <!--Div containers desktop mode-->
+                <div
+                    class="hidden w-3/4 h-70vh lg:grid grid-cols-2 gap-10 justify-items-center">
+                    <!--Button add task-->
+                    <div
+                        class="hidden h-70vh w-20 absolute left-1 lg:flex justify-center items-center">
+                        <div
+                            (click)="taskModalService.openModal(undefined)"
+                            class="flex justify-center items-center w-9 h-9 bg-neutral-700 rounded-lg hover:bg-neutral-400 mr-2">
+                            <!-- add -->
+                            <div>
+                                <i
+                                    class="bi bi-file-earmark-plus text-white text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full h-full shadow-xl rounded-xl p-5 flex flex-col justify-between items-center">
+                        <div
+                            class="w-full h-14 flex justify-center items-center">
+                            <!--TODO tasks-->
+                            <i
+                                class="bi bi-cup-hot text-orange-500 text-4xl"></i>
+                        </div>
+                        <div class="w-full min-h-6 h-80 mb-10">
+                            <app-task-container
+                                [taskStatus]="1"
+                                [tasksList]="
+                                    this.tasksToDo
+                                "></app-task-container>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full h-full shadow-xl rounded-xl p-5 flex flex-col justify-between items-center">
+                        <!--Finished tasks-->
+                        <div
+                            class="w-full h-14 flex justify-center items-center">
+                            <i
+                                class="bi bi-check-all text-green-500 text-5xl"></i>
+                        </div>
+                        <div class="w-full min-h-6 h-80 mb-10">
+                            <app-task-container
+                                [taskStatus]="2"
+                                [tasksList]="
+                                    this.tasksFinished
+                                "></app-task-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+} @placeholder {
+    <div class="w-full h-screen grid place-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+} @loading {
+    <div class="w-full h-screen grid place-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+}

@@ -1,0 +1,16 @@
+<div
+    class="group flex items-center justify-center rounded-full hover:cursor-help">
+    @if (status() == 1) {
+        <!-- todo -->
+        <i
+            class="bi bi-cup-hot text-orange-500 text-2xl hover:text-orange-300"></i>
+    } @else if (status() == 2) {
+        <!-- finished -->
+        <i
+            class="bi bi-check-all text-green-500 text-3xl hover:text-green-300"></i>
+    }
+    <div
+        class="invisible w-40 p-2 absolute left-full ml-4 rounded-lg bg-neutral-700 shadow-lg z-10 text-justify text-sm text-white group-hover:visible before:border-8 before:border-solid before:absolute before:right-full before:top-[calc(50%-8px)] before:border-l-transparent before:border-t-transparent before:border-b-transparent before:border-r-neutral-700">
+        {{ text() }}
+    </div>
+</div>

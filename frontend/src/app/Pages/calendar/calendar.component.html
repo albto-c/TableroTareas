@@ -1,0 +1,99 @@
+@defer (when loadCalendar()) {
+    <div class="w-full h-full select-none mt-5">
+        <div class="grid grid-cols-[3fr,1fr] lg:grid-cols-3">
+            <div
+                class="justify-self-start lg:justify-self-center col-span-1 lg:col-start-2 flex justify-center gap-3 items-center">
+                <div
+                    class="text-neutral-700 text-2xl font-extrabold sm:text-3xl">
+                    {{ months[month].toUpperCase() }} {{ year }}
+                </div>
+            </div>
+
+            <div
+                class="justify-self-end lg:justify-self-start flex justify-center items-center gap-1">
+                <div
+                    (click)="changeMonth(DOWN)"
+                    class="bg-neutral-700 w-8 h-8 flex justify-center items-center rounded-lg hover:bg-neutral-400">
+                    <!-- left arrow -->
+                    <div>
+                        <i
+                            class="bi bi-caret-left-fill text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div
+                    (click)="changeMonth(UP)"
+                    class="bg-neutral-700 w-8 h-8 flex justify-center items-center rounded-lg hover:bg-neutral-400">
+                    <!-- right arrow -->
+                    <div>
+                        <i class="bi bi-caret-right-fill text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="grid grid-cols-7 mt-3">
+                @for (day of daysOfWeek; track $index) {
+                    <div
+                        class="flex justify-center items-center h-10 font-bold text-neutral-600">
+                        {{ day }}
+                    </div>
+                }
+            </div>
+
+            <div class="grid grid-cols-7 gap-1">
+                @for (day of daysOfMonth; track $index) {
+                    @if (day.currentMonth) {
+                        <div
+                            class="relative h-24 hover:border-2 hover:border-dashed hover:border-orange-700/50">
+                            @if (
+                                authService.isLogged$.getValue() &&
+                                day.taskStatus == 1
+                            ) {
+                                <app-tool-tip
+                                    [status]="1"
+                                    text="Quedan tareas sin finalizar"
+                                    class="absolute top-1 left-1" />
+                            } @else if (
+                                authService.isLogged$.getValue() &&
+                                day.taskStatus == 2
+                            ) {
+                                <app-tool-tip
+                                    [status]="2"
+                                    text="Todas las tareas finalizadas"
+                                    class="absolute top-1 left-1" />
+                            }
+                            <a
+                                (click)="getSelectedDate(day.number)"
+                                [routerLink]="[
+                                    '/tablero',
+                                    'd' +
+                                        day.number +
+                                        'm' +
+                                        this.month +
+                                        'y' +
+                                        this.year,
+                                ]"
+                                class="w-full h-full flex flex-col justify-center items-center bg-white text-neutral-700">
+                                <span class="m-3">{{ day.number }}</span>
+                            </a>
+                        </div>
+                    } @else {
+                        <div
+                            class="flex justify-center items-center h-24 opacity-30 text-neutral-700">
+                            <span class="m-3">{{ day.number }}</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+} @placeholder {
+    <div class="w-full h-screen grid place-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+} @loading {
+    <div class="w-full h-screen grid place-content-center">
+        <mat-spinner></mat-spinner>
+    </div>
+}

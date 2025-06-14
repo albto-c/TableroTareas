@@ -1,0 +1,44 @@
+@if (alert) {
+    @if (alert.type == alertType.success) {
+        <div
+            class="flex justify-start items-center gap-1 absolute top-3 right-0 w-80 h-16 bg-white rounded shadow shadow-black/15 border-l-8 border-green-600">
+            <div class="w-5/12 h-full flex justify-center items-center">
+                <i class="bi bi-check-circle-fill text-green-600 text-3xl"></i>
+            </div>
+            <div class="text-sm font-semibold text-neutral-700 mr-6">
+                {{ alert.text }}
+            </div>
+        </div>
+    } @else if (alert.type == alertType.warning) {
+        <div
+            class="flex justify-start items-center gap-1 absolute top-3 right-0 w-80 h-16 bg-white rounded shadow shadow-black/15 border-l-8 border-yellow-500">
+            <div class="w-5/12 h-full flex justify-center items-center">
+                <i
+                    class="bi bi-exclamation-triangle-fill text-yellow-500 text-3xl"></i>
+            </div>
+            <div class="text-sm font-semibold text-neutral-700 mr-6">
+                {{ alert.text }}
+            </div>
+        </div>
+    } @else if (alert.type == alertType.error) {
+        <div
+            class="flex justify-start items-center gap-1 absolute top-3 right-0 w-80 h-16 bg-white rounded shadow shadow-black/15 border-l-8 border-red-600">
+            <div class="w-5/12 h-full flex justify-center items-center">
+                <i class="bi bi-x-circle-fill text-red-600 text-3xl"></i>
+            </div>
+            <div class="text-sm font-semibold text-neutral-700 mr-6">
+                {{ alert.text }}
+            </div>
+        </div>
+    } @else if (alert.type == alertType.info) {
+        <div
+            class="flex justify-start items-center gap-1 absolute top-3 right-0 w-80 h-16 bg-white rounded shadow shadow-black/15 border-l-8 border-neutral-400">
+            <div class="w-5/12 h-full flex justify-center items-center">
+                <i class="bi bi-info-circle-fill text-neutral-400 text-3xl"></i>
+            </div>
+            <div class="text-sm font-semibold text-neutral-700 mr-6">
+                {{ alert.text }}
+            </div>
+        </div>
+    }
+}

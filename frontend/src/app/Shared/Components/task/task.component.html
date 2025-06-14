@@ -1,0 +1,47 @@
+<div
+    class="min-w-full w-full h-20 p-5 flex justify-between items-center border bg-slate-300/50 rounded-xl shadow-sm shadow-black/20 hover:border-2 hover:border-neutral-700 hover:opacity-90 hover:cursor-pointer">
+    <div class="flex flex-col justify-center items-start">
+        <div class="text-lg text-neutral-700 font-semibold">
+            {{
+                task().title.length > 25
+                    ? task().title.substring(0, 25).concat('...')
+                    : task().title
+            }}
+        </div>
+        <div class="text-sm text-neutral-700">
+            {{
+                task().description != null && task().description.length > 25
+                    ? task().description.substring(0, 25).concat('...')
+                    : task().description
+            }}
+        </div>
+    </div>
+    <div class="flex justify-center items-center gap-1 sm:gap-3">
+        <div
+            (click)="
+                this.taskService.updateTaskStatus(
+                    task().id,
+                    task().taskStatus === 1 ? 2 : 1
+                );
+                $event.stopPropagation()
+            ">
+            @if (task().taskStatus === 2) {
+                <!-- todo -->
+                <i
+                    class="bi bi-cup-hot text-orange-500 text-3xl hover:text-orange-300"></i>
+            } @else {
+                <!-- finished -->
+                <i
+                    class="bi bi-check-all text-green-500 text-5xl hover:text-green-300"></i>
+            }
+        </div>
+        <div
+            (click)="
+                this.taskService.deleteTask(task().id); $event.stopPropagation()
+            ">
+            <!-- bin -->
+            <i
+                class="bi bi-trash3 text-red-600 text-3xl hover:text-red-300"></i>
+        </div>
+    </div>
+</div>

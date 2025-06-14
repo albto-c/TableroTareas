@@ -1,0 +1,15 @@
+<nav class="w-full h-16 flex justify-end items-center">
+    @if (!authService.isLogged$.getValue()) {
+        <div
+            class="w-40 h-8 bg-neutral-700 text-white font-extrabold rounded select-none hover:bg-neutral-400 cursor-pointer">
+            <a
+                href="/login"
+                class="w-full h-full flex justify-center items-center"
+                >Iniciar Sesion</a
+            >
+        </div>
+    } @else {
+        <app-profile></app-profile>
+    }
+</nav>
+<router-outlet></router-outlet>
